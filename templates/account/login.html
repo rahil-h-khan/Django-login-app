@@ -1,0 +1,23 @@
+
+{% load i18n %}
+{% load socialaccount %}
+{% block content %}
+    <h2>{% trans "Login" %}</h2>
+
+    {% if socialaccount.providers %}
+        <ul class="socialaccount_providers">
+            {% for provider in socialaccount.providers %}
+                <li><a href="{% provider_login_url provider.id %}">{{ provider.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% trans "Login" %}</button>
+    </form>
+
+    <p>{% trans "Not a member?" %} <a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a></p>
+    <p>{% trans "Forgot password?" %} <a href="{% url 'account_reset_password' %}">{% trans "Reset password" %}</a></p>
+{% endblock %}
